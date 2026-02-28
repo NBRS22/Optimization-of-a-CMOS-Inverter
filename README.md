@@ -1,4 +1,4 @@
-# Optimisation inverseur CMOS — T4 Master ESE
+# Optimisation inverseur CMOS
 
 **Auteurs** : Nour EL Bachari, Asmae HMIDANI
 
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 |---------|------|
 | `perf_cmos_inverter.py` | Calcule délai, puissance et surface à partir de formules analytiques (modèle RC, équations MOSFET). Interface pour MIDACO. |
 | `optimize_inverter.py` | Configure et lance l'optimisation MIDACO. Minimise un objectif composite (délai + 0.01×puissance + 0.001×surface). |
-| `Midaco/` | Package MIDACO : interface Python (`midaco.py`), bibliothèque native (`midacopy.dll`), exemple. |
+| `Midaco/` | Package MIDACO : interface Python (`midaco.py`), bibliothèque native (`midacopy.dll`).|
 | `inverter_cmos.cir` | Netlist SPICE paramétrée. Inclut `5827_035.lib`, source PULSE, transistors NM/PM, mesures tphl/tplh. |
 | `TP.asc` | Schéma LTSpice de l'inverseur avec paramètres symboliques. |
 | `5827_035.lib` | Bibliothèque technologique AMS 0.35µm (modèles NMOS, PMOS). |
