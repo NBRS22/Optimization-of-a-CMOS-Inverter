@@ -41,10 +41,6 @@ pip install -r requirements.txt
 | `TP.asc` | Schéma LTSpice de l'inverseur avec paramètres symboliques. |
 | `5827_035.lib` | Bibliothèque technologique AMS 0.35µm (modèles NMOS, PMOS). |
 
-## Rapport
-
-Le rapport décrivant la méthodologie et les résultats est fourni en **PDF** dans le dossier rapport.
-
 ## Références
 
 - [MIDACO Solver](http://www.midaco-solver.com/) — Algorithme d'optimisation par colonie de fourmis
