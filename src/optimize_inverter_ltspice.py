@@ -4,8 +4,12 @@ Utilise PyLTSpice pour lancer des simulations et extraire les performances au li
 
 """
 
-import os
+import sys
 from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
 
 # Vérifier que spicelib est disponible
 try:
@@ -17,8 +21,8 @@ try:
 except ImportError:
     SPICELIB_AVAILABLE = False
 
-# Répertoire du script (pour chemins relatifs)
-SCRIPT_DIR = Path(__file__).parent.resolve()
+# Répertoires projet
+LTSPICE_DIR = PROJECT_ROOT / "ltspice"
 
 
 def run_simulation_and_extract_delay(Wn_um, Wp_um, L_um):
@@ -42,7 +46,7 @@ def run_simulation_and_extract_delay(Wn_um, Wp_um, L_um):
     Wp_str = f"{Wp_um:.2f}u" if Wp_um >= 1 else f"{Wp_um*1000:.0f}n"
     L_str = f"{L_um:.3f}u" if L_um >= 0.1 else f"{L_um*1000:.0f}n"
 
-    cir_file = SCRIPT_DIR / "inverter_cmos.cir"
+    cir_file = LTSPICE_DIR / "inverter_cmos.cir"
     if not cir_file.exists():
         return {'success': False, 'delay_ns': 1e6, 'tphl': 1e6, 'tplh': 1e6}
 
@@ -56,8 +60,8 @@ def run_simulation_and_extract_delay(Wn_um, Wp_um, L_um):
             simulator=LTspice,
             parallel_sims=1,
             timeout=120,
-            output_folder=SCRIPT_DIR / "sim_output",
-            cwd=SCRIPT_DIR,
+            output_folder=LTSPICE_DIR / "sim_output",
+            cwd=LTSPICE_DIR,
         )
         runner.run(editor, wait_resource=True)
         runner.wait_completion(timeout=130)
@@ -117,8 +121,17 @@ def optimize_with_simulator():
         print("PyLTSpice/spicelib non installé. Exécutez: pip install PyLTSpice")
         return
 
+    # S'assurer que la bibliothèque techno est dans sim_output (pour .include)
+    import shutil
+    sim_out = LTSPICE_DIR / "sim_output"
+    sim_out.mkdir(exist_ok=True)
+    lib_src = LTSPICE_DIR / "5827_035.lib"
+    lib_dst = sim_out / "5827_035.lib"
+    if lib_src.exists() and (not lib_dst.exists() or lib_src.stat().st_mtime > lib_dst.stat().st_mtime):
+        shutil.copy2(lib_src, lib_dst)
+
     print("=" * 60)
-    print("Optimisation inverseur CMOS via LTSpice (BONUS)")
+    print("Optimisation inverseur CMOS via LTSpice")
     print("=" * 60)
 
     # Grille de recherche réduite (pour limiter le nombre de simulations)
@@ -157,7 +170,7 @@ def optimize_with_simulator():
         except ImportError:
             pass
         # Sauvegarder pour le rapport
-        results_file = SCRIPT_DIR / "ltspice_optim_results.txt"
+        results_file = PROJECT_ROOT / "ltspice_optim_results.txt"
         with open(results_file, 'w') as f:
             f.write(f"Wn={best_params[0]}\nWp={best_params[1]}\nL={best_params[2]}\n")
             f.write(f"tpd_ns={best_delay:.3f}\n")

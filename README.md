@@ -19,27 +19,47 @@ pip install -r requirements.txt
 
 ## Utilisation
 
+Depuis la racine du projet :
+
 | Commande | Description |
 |----------|-------------|
-| `python optimize_inverter.py` | Lance l'optimisation MIDACO. Utilise le modèle analytique pour évaluer les performances. Affiche la solution optimale (Wn, Wp, L) et les performances associées. |
-| `python perf_cmos_inverter.py` | Teste le calcul des performances pour des dimensions typiques (Wn=2µm, Wp=6µm, L=0.35µm). Affiche délai, puissance et surface. |
-| `python optimize_inverter_ltspice.py` | Boucle d'optimisation qui appelle LTSpice pour chaque évaluation. Recherche par grille sur Wn et Wp. Nécessite LTspice et PyLTSpice. |
+| `python src/optimize_inverter.py` | Lance l'optimisation MIDACO. Utilise le modèle analytique pour évaluer les performances. Affiche la solution optimale (Wn, Wp, L) et les performances associées. |
+| `python src/perf_cmos_inverter.py` | Teste le calcul des performances pour des dimensions typiques (Wn=2µm, Wp=6µm, L=0.35µm). Affiche délai, puissance et surface. |
+| `python src/optimize_inverter_ltspice.py` | Boucle d'optimisation qui appelle LTSpice pour chaque évaluation. Recherche par grille sur Wn et Wp. Nécessite LTspice et PyLTSpice. |
 
 ## Simulation LTSpice
 
-- **Schéma** : ouvrir `TP.asc` dans LTspice. Les paramètres Wn, Wp, L sont dans la directive `.param`.
-- **Netlist** : `inverter_cmos.cir` peut être simulé directement. Modifier les valeurs dans `.param` pour tester d'autres dimensions.
+- **Schéma** : ouvrir `ltspice/TP.asc` dans LTspice. Les paramètres Wn, Wp, L sont dans la directive `.param`.
+- **Netlist** : `ltspice/inverter_cmos.cir` peut être simulé directement. Modifier les valeurs dans `.param` pour tester d'autres dimensions.
 
 ## Structure du projet
 
-| Fichier | Rôle |
+```
+TP/
+├── src/                      # Scripts Python
+│   ├── perf_cmos_inverter.py
+│   ├── optimize_inverter.py
+│   └── optimize_inverter_ltspice.py
+├── ltspice/                  # Fichiers LTSpice
+│   ├── inverter_cmos.cir
+│   ├── TP.asc
+│   ├── 5827_035.lib
+│   └── sim_output/           # Sorties simulation
+├── Midaco/                   # Package MIDACO
+├── rapport/                  # Rapport LaTeX (optionnel)
+├── README.md
+└── requirements.txt
+```
+
+| Élément | Rôle |
 |---------|------|
-| `perf_cmos_inverter.py` | Calcule délai, puissance et surface à partir de formules analytiques (modèle RC, équations MOSFET). Interface pour MIDACO. |
-| `optimize_inverter.py` | Configure et lance l'optimisation MIDACO. Minimise un objectif composite (délai + 0.01×puissance + 0.001×surface). |
-| `Midaco/` | Package MIDACO : interface Python (`midaco.py`), bibliothèque native (`midacopy.dll`).|
-| `inverter_cmos.cir` | Netlist SPICE paramétrée. Inclut `5827_035.lib`, source PULSE, transistors NM/PM, mesures tphl/tplh. |
-| `TP.asc` | Schéma LTSpice de l'inverseur avec paramètres symboliques. |
-| `5827_035.lib` | Bibliothèque technologique AMS 0.35µm (modèles NMOS, PMOS). |
+| `src/perf_cmos_inverter.py` | Calcule délai, puissance et surface à partir de formules analytiques (modèle RC, équations MOSFET). Interface pour MIDACO. |
+| `src/optimize_inverter.py` | Configure et lance l'optimisation MIDACO. Minimise un objectif composite (délai + 0.01×puissance + 0.001×surface). |
+| `src/optimize_inverter_ltspice.py` | Boucle d'optimisation par appel direct au simulateur LTSpice. |
+| `Midaco/` | Package MIDACO : interface Python (`midaco.py`), bibliothèque native (`midacopy.dll`). |
+| `ltspice/inverter_cmos.cir` | Netlist SPICE paramétrée. Inclut `5827_035.lib`, source PULSE, transistors NM/PM, mesures tphl/tplh. |
+| `ltspice/TP.asc` | Schéma LTSpice de l'inverseur avec paramètres symboliques. |
+| `ltspice/5827_035.lib` | Bibliothèque technologique AMS 0.35µm (modèles NMOS, PMOS). |
 
 ## Références
 

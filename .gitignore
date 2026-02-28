@@ -24,6 +24,7 @@ build/
 
 # Simulation LTSpice / PyLTSpice
 sim_output/
+ltspice/sim_output/
 *.raw
 *.net
 

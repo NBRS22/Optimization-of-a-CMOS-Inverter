@@ -5,6 +5,12 @@ Utilise le fichier perf_cmos_inverter.py pour le calcul des performances.
 """
 
 import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+sys.path.insert(0, str(PROJECT_ROOT / "src"))
+
 from Midaco import midaco
 from perf_cmos_inverter import compute_performances, compute_performances_for_optim
 
