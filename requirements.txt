@@ -1,0 +1,2 @@
+numpy>=1.20.0
+PyLTSpice>=5.0

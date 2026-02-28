@@ -1,0 +1,33 @@
+* Inverseur CMOS - Technologie AMS 0.35µm
+* Paramètres: Wn, Wp, L (modifiables pour optimisation/simulation)
+* Compatible LTspice
+
+.include 5827_035.lib
+
+.param Wn=2u Wp=6u L=0.35u Vdd=3.3
+.param Cload=10f
+
+* Source de tension d'alimentation
+Vdd vdd 0 DC {Vdd}
+
+* Source d'entrée - rampe pour mesure du delay
+Vin in 0 PULSE(0 {Vdd} 1n 100p 100p 10n 20n)
+
+* Inverseur CMOS (subccts NM, PM de 5827_035.lib)
+* NMOS: D G S B
+Xnmos out in 0 0 NM W={Wn} L={L}
+* PMOS: D G S B
+Xpmos out in vdd vdd PM W={Wp} L={L}
+
+* Capacité de charge
+Cload out 0 {Cload}
+
+* Analyse transitoire
+.tran 10p 50n
+
+* Mesures LTspice (propagation delay)
+.meas tran tphl TRIG v(in) VAL='Vdd/2' RISE=1 TARG v(out) VAL='Vdd/2' FALL=1
+.meas tran tplh TRIG v(in) VAL='Vdd/2' FALL=1 TARG v(out) VAL='Vdd/2' RISE=1
+.meas tran tpd param '(tphl+tplh)/2'
+
+.end

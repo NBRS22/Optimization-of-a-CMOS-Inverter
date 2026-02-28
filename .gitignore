@@ -1,0 +1,45 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# LaTeX
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.pdf
+
+# Simulation LTSpice / PyLTSpice
+sim_output/
+*.raw
+*.net
+
+# MIDACO (sorties d'exécution)
+MIDACO_SOLUTION.TXT
+MIDACO_SCREEN.TXT
+Midaco/MIDACO_SOLUTION.TXT
+Midaco/MIDACO_SCREEN.TXT
+
+# Système
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
