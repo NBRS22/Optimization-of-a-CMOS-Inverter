@@ -1,23 +1,20 @@
 # Optimisation inverseur CMOS — T4 Master ESE
 
-Projet d'optimisation des dimensions d'un inverseur CMOS en technologie AMS 0.35µm. La méthode combine un **modèle analytique** des performances (délai, consommation, surface) et l'algorithme **MIDACO** (colonie de fourmis) pour trouver les dimensions optimales (Wn, Wp, L). Les résultats peuvent être validés par simulation **LTSpice**.
+**Auteurs** : Nour EL Bachari, Asmae HMIDANI
+
+Projet d'optimisation des dimensions d'un inverseur CMOS en technologie AMS 0.35µm. La méthode combine un **modèle analytique** des performances (délai, consommation, surface) et l'algorithme **MIDACO** (colonie de fourmis) pour trouver les dimensions optimales (Wn, Wp, L). Les résultats sont validés par simulation **LTSpice**.
 
 ## Prérequis
 
 - Python 3.8+
-- **NumPy** (obligatoire)
+- **NumPy**
 - **LTspice** (pour les simulations manuelles)
-- **PyLTSpice** (optionnel, pour le bonus)
+- **PyLTSpice** (pour les boucles d'optimisation)
 
 ## Installation
 
 ```bash
 pip install -r requirements.txt
-```
-
-Pour le bonus (optimisation via simulateur) :
-```bash
-pip install PyLTSpice
 ```
 
 ## Utilisation
@@ -26,8 +23,7 @@ pip install PyLTSpice
 |----------|-------------|
 | `python optimize_inverter.py` | Lance l'optimisation MIDACO. Utilise le modèle analytique pour évaluer les performances. Affiche la solution optimale (Wn, Wp, L) et les performances associées. |
 | `python perf_cmos_inverter.py` | Teste le calcul des performances pour des dimensions typiques (Wn=2µm, Wp=6µm, L=0.35µm). Affiche délai, puissance et surface. |
-| `python -m Midaco.example_MINLPc` | Exécute l'exemple générique MIDACO (problème de démonstration). |
-| `python optimize_inverter_ltspice.py` | **Bonus** : boucle d'optimisation qui appelle LTSpice pour chaque évaluation. Recherche par grille sur Wn et Wp. Nécessite LTspice et PyLTSpice. |
+| `python optimize_inverter_ltspice.py` | Boucle d'optimisation qui appelle LTSpice pour chaque évaluation. Recherche par grille sur Wn et Wp. Nécessite LTspice et PyLTSpice. |
 
 ## Simulation LTSpice
 
@@ -47,7 +43,7 @@ pip install PyLTSpice
 
 ## Rapport
 
-Le rapport décrivant la méthodologie et les résultats est fourni en **PDF uniquement** : `rapport.pdf`
+Le rapport décrivant la méthodologie et les résultats est fourni en **PDF** dans le dossier rapport.
 
 ## Références
 
